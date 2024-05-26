@@ -1,5 +1,6 @@
 package com.grupob.resolvo.services;
 
+import com.grupob.resolvo.model.Technician;
 import com.grupob.resolvo.model.WorkerUser;
 import com.grupob.resolvo.model.exception.NoWorkerUserFoundException;
 import com.grupob.resolvo.repository.WorkerUserRepository;
@@ -24,14 +25,15 @@ public class WorkerUserService {
             return user;
         }
     }
+
     public boolean findIfFirstTime(int id) {
-        final boolean
+        return workerUserRepository.findIfFirstTime(id);
 
     }
-    public String updatePassword(int id, String password) {
-
+    public boolean updatePassword(int id, String password) {
+        return workerUserRepository.updatePassword(id, password);
     }
-    public void changeFirstTime(String username) {
-
+    public void changeFirstTime(int id) {
+        workerUserRepository.changeFirstTime(id);
     }
 }

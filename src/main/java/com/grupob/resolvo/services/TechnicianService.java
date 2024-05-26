@@ -2,6 +2,7 @@ package com.grupob.resolvo.services;
 
 import com.grupob.resolvo.model.Technician;
 import com.grupob.resolvo.model.WorkerUser;
+import com.grupob.resolvo.model.exception.NoTechnicianFoundException;
 import com.grupob.resolvo.repository.TechnicianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,14 @@ public class TechnicianService {
         this.technicianRepository = technicianRepository;
     }
 
-    public Technician findTechnician(WorkerUser user) {
-        final Technician technician = technicianRepository.findTechnician(user);
+    public Technician findTechnician(int id) throws NoTechnicianFoundException {
+        final Technician technician = technicianRepository.findTechnician(id);
 
-        return technician;
+        if(technician != null){
+            return technician;
+        }else{
+            throw new NoTechnicianFoundException("Technician not found");
+        }
     }
 
 }
