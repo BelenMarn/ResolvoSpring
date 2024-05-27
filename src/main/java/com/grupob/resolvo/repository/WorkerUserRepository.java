@@ -8,4 +8,5 @@ public interface WorkerUserRepository {
     boolean findIfFirstTime(int id);
     boolean updatePassword(int id, String password);
     void changeFirstTime(int id);
+    int findIdByEmail(String email) throws NoWorkerUserFoundException;
 }

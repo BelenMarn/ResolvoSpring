@@ -15,6 +15,8 @@ public class WorkerUserRepositoryAdapter implements WorkerUserRepository {
     private final String SELECT_FIRST_TIME = "SELECT primeraVez FROM usuariointerno WHERE idtrabajador = ?";
     private final String UPDATE_PASSWORD = "UPDATE usuariointerno SET material = ? WHERE idtrabajador = ?";
     private final String UPDATE_FIRST_TIME = "UPDATE usuariointerno SET primeraVez = 0 WHERE idtrabajador = ?";
+    private final String SELECT_ID_WORKER = "SELECT idTrabajador FROM usuariointerno " +
+                                            "WHERE email = ?";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -57,6 +59,17 @@ public class WorkerUserRepositoryAdapter implements WorkerUserRepository {
     @Override
     public void changeFirstTime(int id) {
         jdbcTemplate.update(UPDATE_FIRST_TIME, id);
+    }
+
+    @Override
+    public int findIdByEmail(String email) throws NoWorkerUserFoundException {
+        Integer id = jdbcTemplate.queryForObject(SELECT_ID_WORKER, new Object[]{email}, Integer.class);
+
+        if(id != null){
+            return id;
+        }else{
+            throw new NoWorkerUserFoundException("User not found");
+        }
     }
 
 }

@@ -11,7 +11,7 @@ public class Incidence {
     private String model;
     private String reason;
     private String open_date;
-    private String status;
+    private Status status;
     private String technical_report;
     private String close_date;
     private Byte[] digital_sign;
@@ -20,7 +20,7 @@ public class Incidence {
     public Incidence() {
     }
 
-    public Incidence(int id_incidence, int id_worker, String device, String brand, String model, String reason, String open_date, String status, String technical_report, String close_date, Byte[] digital_sign, ArrayList<Byte[]> media) {
+    public Incidence(int id_incidence, int id_worker, String device, String brand, String model, String reason, String open_date, Status status, String technical_report, String close_date, Byte[] digital_sign, ArrayList<Byte[]> media) {
         this.id_incidence = id_incidence;
         this.id_worker = id_worker;
         this.device = device;
@@ -91,11 +91,11 @@ public class Incidence {
         this.open_date = open_date;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

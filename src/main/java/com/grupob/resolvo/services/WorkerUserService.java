@@ -30,10 +30,19 @@ public class WorkerUserService {
         return workerUserRepository.findIfFirstTime(id);
 
     }
+
+    public int findIdByEmail(String email) throws NoWorkerUserFoundException {
+        final int id = workerUserRepository.findIdByEmail(email);
+        return id;
+    }
+
     public boolean updatePassword(int id, String password) {
         return workerUserRepository.updatePassword(id, password);
     }
+
     public void changeFirstTime(int id) {
         workerUserRepository.changeFirstTime(id);
     }
+
+
 }

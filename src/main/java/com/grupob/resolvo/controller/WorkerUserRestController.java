@@ -41,13 +41,16 @@ public class WorkerUserRestController {
         return workerUserService.findIfFirstTime(id);
     }
 
-    @PutMapping("/updatePassword/{id}")
-    public boolean updatePassword(@PathVariable("id") int id, @RequestBody String password) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, String> passwordMap = mapper.readValue(password, Map.class);
-        String actualPassword = passwordMap.get("material");
+    @GetMapping("/getUserId/{email}")
+    public int findIdByEmail(@PathVariable("email")String email) throws NoWorkerUserFoundException {
+        final int id = workerUserService.findIdByEmail(email);
 
-        return workerUserService.updatePassword(id, actualPassword);
+        return id;
+    }
+
+    @PutMapping("/updatePassword/{id}")
+    public boolean updatePassword(@PathVariable("id") int id, @RequestParam("material") String password) {
+        return workerUserService.updatePassword(id, password);
     }
 
     @PutMapping("/firstTime/{id}")

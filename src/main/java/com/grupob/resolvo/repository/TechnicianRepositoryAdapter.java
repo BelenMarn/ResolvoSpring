@@ -1,8 +1,7 @@
 package com.grupob.resolvo.repository;
 
-import com.grupob.resolvo.model.Especializacion;
+import com.grupob.resolvo.model.Specialization;
 import com.grupob.resolvo.model.Technician;
-import com.grupob.resolvo.model.WorkerUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -52,7 +51,7 @@ public class TechnicianRepositoryAdapter implements TechnicianRepository{
         technician.setBirthday_date((Date) technicianData.get("fechaNacimiento"));
 
         String specializationString = (String) technicianData.get("especializacion");
-        Especializacion specialization = Especializacion.fromString(specializationString);
+        Specialization specialization = Specialization.fromString(specializationString);
         technician.setSpecialization(specialization);
 
         return technician;

@@ -1,8 +1,6 @@
 package com.grupob.resolvo.model;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Technician {
     private int id_worker;
@@ -16,13 +14,13 @@ public class Technician {
     private String dni;
     private String email;
     private Date birthday_date;
-    private Especializacion specialization;
+    private Specialization specialization;
 
 
     public Technician() {
     }
 
-    public Technician(int id_worker, String name, String surname, String street, String postal_code, String city, String province, String phone, String dni, String email, Date birthday_date, Especializacion specialization) {
+    public Technician(int id_worker, String name, String surname, String street, String postal_code, String city, String province, String phone, String dni, String email, Date birthday_date, Specialization specialization) {
         this.id_worker = id_worker;
         this.name = name;
         this.surname = surname;
@@ -125,11 +123,11 @@ public class Technician {
         this.birthday_date = birthday_date;
     }
 
-    public Especializacion getSpecialization() {
+    public Specialization getSpecialization() {
         return specialization;
     }
 
-    public void setSpecialization(Especializacion specialization) {
+    public void setSpecialization(Specialization specialization) {
         this.specialization = specialization;
     }
 }
