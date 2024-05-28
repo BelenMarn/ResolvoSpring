@@ -41,4 +41,17 @@ public class IncidenceRestController {
     public Incidence findIncidenceById(@PathVariable("id")int id) throws NoIncidenceFoundException {
         return incidenceService.findIncidenceById(id);
     }
+
+    //MARCOS
+    @GetMapping("/findAll/")
+    public List<Incidence> findAllIncidences() throws EmptyIncidenceList {
+        final List<Incidence> incidences = incidenceService.findAllIncidences();
+
+        if (incidences.isEmpty()) {
+            throw new EmptyIncidenceList("Empty incidence list");
+        }else{
+            return incidences;
+        }
+
+    }
 }

@@ -19,7 +19,7 @@ public class WorkerUserRestController {
     }
 
     @GetMapping
-    public WorkerUser getUser(@RequestParam("user") String email, @RequestParam("material") String password) throws NoWorkerUserFoundException, NoTechnicianFoundException {
+    public WorkerUser getUser(@RequestParam("user") String email, @RequestParam("material") String password) throws NoWorkerUserFoundException {
         final WorkerUser user = workerUserService.findWorkerWithCredentials(email, password);
 
         if(user != null){

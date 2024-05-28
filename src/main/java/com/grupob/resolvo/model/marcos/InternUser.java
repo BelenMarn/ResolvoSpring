@@ -1,15 +1,15 @@
 package com.grupob.resolvo.model.marcos;
 
-public class UserModel {
+public class InternUser {
     private int id_worker;
     private String email;
     private String material;
     private boolean firstTime;
 
-    public UserModel() {
+    public InternUser() {
     }
 
-    public UserModel(int id_worker, String email, String material, boolean firstTime) {
+    public InternUser(int id_worker, String email, String material, boolean firstTime) {
         this.id_worker = id_worker;
         this.email = email;
         this.material = material;

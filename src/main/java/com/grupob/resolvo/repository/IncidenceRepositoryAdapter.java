@@ -5,7 +5,6 @@ import com.grupob.resolvo.model.enums.Status;
 import com.grupob.resolvo.model.exception.EmptyIncidenceList;
 import com.grupob.resolvo.model.exception.NoIncidenceFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -31,6 +30,14 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
                                                 "WHERE Incidencia.idCliente = Cliente.idCliente " +
                                                 "AND Incidencia.idTrabajador = Trabajador.idTrabajador " +
                                                 "AND Incidencia.idIncidencia = ?";
+
+    private final String SELECT_ALL_INCIDENCES = "SELECT idIncidencia, Incidencia.idCliente,CONCAT(Cliente.nombre,\" \", Cliente.apellidos) " +
+                                            "as nombreCliente, Incidencia.idTrabajador,CONCAT(Trabajador.nombre,\" \", Trabajador.apellidos) " +
+                                            "as nombreTrabajador, dispositivo, marca, modelo, ubicacion, motivo, fechaAltaIncidencia, estado, informeTecnico, " +
+                                            "fechaCierreIncidencia, firmaDigital" +
+                                            "FROM Incidencia, Cliente, Trabajador " +
+                                            "WHERE Incidencia.idCliente = Cliente.idCliente " +
+                                            "AND Incidencia.idTrabajador = Trabajador.idTrabajador";
 
 
     private JdbcTemplate jdbcTemplate;
@@ -90,6 +97,40 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
             return incidence;
         }else{
             throw new NoIncidenceFoundException("No incidence found");
+        }
+    }
+
+    //MARCOS
+    @Override
+    public List<Incidence> findAllIncidences() throws EmptyIncidenceList {
+        RowMapper<Incidence> mapper = (rs, rowNum) -> {
+            Incidence incidence = new Incidence();
+            incidence.setId_incidence(rs.getInt("idIncidencia"));
+            incidence.setId_client(rs.getInt("Incidencia.idCliente"));
+            incidence.setClientName(rs.getString("nombreCliente"));
+            incidence.setId_worker(rs.getInt("Incidencia.idTrabajador"));
+            incidence.setWorkerName(rs.getString("nombreTrabajador"));
+            incidence.setDevice(rs.getString("dispositivo"));
+            incidence.setBrand(rs.getString("marca"));
+            incidence.setModel(rs.getString("modelo"));
+            incidence.setLocation(rs.getString("ubicacion"));
+            incidence.setReason(rs.getString("motivo"));
+            incidence.setOpen_date(rs.getTimestamp("fechaAltaIncidencia").toLocalDateTime());
+            incidence.setTechnical_report(rs.getString("informeTecnico") == null ? null : rs.getString("informeTecnico"));
+            incidence.setClose_date(rs.getTimestamp("fechaCierreIncidencia") == null ? null :  rs.getTimestamp("fechaCierreIncidencia").toLocalDateTime());
+            incidence.setDigital_sign(rs.getBytes("firmaDigital") == null ? null : rs.getBytes("firmaDigital"));
+            incidence.setStatus(Status.fromString(rs.getString("estado")));
+
+            incidence.setMedia(null);
+
+            return incidence;
+        };
+        List<Incidence> incidences = jdbcTemplate.query(SELECT_ALL_INCIDENCES, mapper);
+
+        if (incidences.isEmpty()) {
+            throw new EmptyIncidenceList("No incidences found");
+        } else {
+            return incidences;
         }
     }
 }

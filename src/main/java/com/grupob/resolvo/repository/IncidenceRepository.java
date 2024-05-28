@@ -9,4 +9,5 @@ import java.util.List;
 public interface IncidenceRepository {
     List<Incidence> findIncidencesOfTechnician(int id) throws EmptyIncidenceList;
     Incidence findIncidenceById(int id) throws NoIncidenceFoundException;
+    List<Incidence> findAllIncidences() throws EmptyIncidenceList;
 }

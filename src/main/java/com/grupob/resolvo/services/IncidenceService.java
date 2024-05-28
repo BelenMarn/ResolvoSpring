@@ -20,6 +20,7 @@ public class IncidenceService {
         this.incidenceRepository = incidenceRepository;
     }
 
+    //BELEN
     public List<Incidence> findIncidencesOfTechnician(int id) throws EmptyIncidenceList {
         final List<Incidence> incidences = new ArrayList<Incidence>();
         final Iterator<Incidence> incidenceIterator = incidenceRepository.findIncidencesOfTechnician(id).iterator();
@@ -34,6 +35,7 @@ public class IncidenceService {
         }
     }
 
+    //MARCOS:
     public Incidence findIncidenceById(int id) throws NoIncidenceFoundException {
         final Incidence incidence = incidenceRepository.findIncidenceById(id);
 
@@ -41,6 +43,21 @@ public class IncidenceService {
             return incidence;
         }else{
             throw new NoIncidenceFoundException("No incidence found");
+        }
+    }
+
+    //MARCOS:
+    public List<Incidence> findAllIncidences() throws EmptyIncidenceList {
+        final List<Incidence> incidences = new ArrayList<Incidence>();
+        final Iterator<Incidence> incidenceIterator = incidenceRepository.findAllIncidences().iterator();
+        while (incidenceIterator.hasNext()) {
+            incidences.add(incidenceIterator.next());
+        }
+
+        if(!incidences.isEmpty()){
+            return incidences;
+        }else{
+            throw new EmptyIncidenceList("No incidences found");
         }
     }
 }
