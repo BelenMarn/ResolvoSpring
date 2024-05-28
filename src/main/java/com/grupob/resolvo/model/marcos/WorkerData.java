@@ -6,13 +6,13 @@ import com.grupob.resolvo.model.enums.Specialization;
 import java.util.Date;
 
 public class WorkerData {
+    private int idWorker;
     private String name;
     private String surname;
     private String street;
     private String postal_code;
     private String city;
     private String province;
-    private String country;
     private String phone;
     private String dni;
     private String email;
@@ -23,20 +23,28 @@ public class WorkerData {
     public WorkerData() {
     }
 
-    public WorkerData(String name, String surname, String street, String postal_code, String city, String province, String country, String phone, String dni, String email, Date birthday_date, Position position, Specialization specialization) {
+    public WorkerData(int idWorker, String name, String surname, String street, String postal_code, String city, String province, String phone, String dni, String email, Date birthday_date, Position position, Specialization specialization) {
+        this.idWorker = idWorker;
         this.name = name;
         this.surname = surname;
         this.street = street;
         this.postal_code = postal_code;
         this.city = city;
         this.province = province;
-        this.country = country;
         this.phone = phone;
         this.dni = dni;
         this.email = email;
         this.birthday_date = birthday_date;
         this.position = position;
         this.specialization = specialization;
+    }
+
+    public int getIdWorker() {
+        return idWorker;
+    }
+
+    public void setIdWorker(int idWorker) {
+        this.idWorker = idWorker;
     }
 
     public String getName() {
@@ -85,14 +93,6 @@ public class WorkerData {
 
     public void setProvince(String province) {
         this.province = province;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public String getPhone() {

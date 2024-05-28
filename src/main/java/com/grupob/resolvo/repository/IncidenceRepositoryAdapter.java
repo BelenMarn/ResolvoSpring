@@ -3,18 +3,15 @@ package com.grupob.resolvo.repository;
 import com.grupob.resolvo.model.Incidence;
 import com.grupob.resolvo.model.enums.Status;
 import com.grupob.resolvo.model.exception.EmptyIncidenceList;
+import com.grupob.resolvo.model.exception.NoIncidenceFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class IncidenceRepositoryAdapter implements IncidenceRepository {
@@ -86,7 +83,13 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
 
     //MARCOS
     @Override
-    public Incidence findIncidenceById(int id) throws DataAccessException {
-        return jdbcTemplate.queryForObject(SELECT_INCIDENCE_BY_ID, Incidence.class, id);
+    public Incidence findIncidenceById(int id) throws NoIncidenceFoundException {
+        Incidence incidence = jdbcTemplate.queryForObject(SELECT_INCIDENCE_BY_ID, Incidence.class, id);
+
+        if(incidence != null){
+            return incidence;
+        }else{
+            throw new NoIncidenceFoundException("No incidence found");
+        }
     }
 }

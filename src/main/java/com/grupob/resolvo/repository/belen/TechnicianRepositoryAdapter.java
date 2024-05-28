@@ -2,6 +2,7 @@ package com.grupob.resolvo.repository.belen;
 
 import com.grupob.resolvo.model.enums.Specialization;
 import com.grupob.resolvo.model.belen.Technician;
+import com.grupob.resolvo.model.exception.NoTechnicianFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -28,11 +29,11 @@ public class TechnicianRepositoryAdapter implements TechnicianRepository{
     }
 
     @Override
-    public Technician findTechnician(int id) {
+    public Technician findTechnician(int id) throws NoTechnicianFoundException {
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(SELECT_TECHNICIAN, id);
 
         if (rows.isEmpty()) {
-            return null;
+            throw new NoTechnicianFoundException("Technician not found");
         }
 
         Map<String, Object> technicianData = rows.get(0);

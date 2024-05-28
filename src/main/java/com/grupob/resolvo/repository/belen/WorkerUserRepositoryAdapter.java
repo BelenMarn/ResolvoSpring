@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+//BELEN
 @Repository
 public class WorkerUserRepositoryAdapter implements WorkerUserRepository {
 
@@ -67,6 +68,7 @@ public class WorkerUserRepositoryAdapter implements WorkerUserRepository {
 
         if(id != null){
             return id;
+
         }else{
             throw new NoWorkerUserFoundException("User not found");
         }

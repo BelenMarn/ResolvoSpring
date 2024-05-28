@@ -3,6 +3,7 @@ package com.grupob.resolvo.controller;
 import com.grupob.resolvo.model.Incidence;
 import com.grupob.resolvo.model.exception.EmptyIncidenceList;
 import com.grupob.resolvo.model.exception.NoIncidenceFoundException;
+import com.grupob.resolvo.model.exception.NoWorkerUserFoundException;
 import com.grupob.resolvo.services.IncidenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +27,18 @@ public class IncidenceRestController {
     @GetMapping("/technician/{id}")
     public List<Incidence> findIncidencesOfTechnician(@PathVariable("id")int id) throws EmptyIncidenceList {
         final List<Incidence> incidences = incidenceService.findIncidencesOfTechnician(id);
-        return incidences;
+
+        if (incidences.isEmpty()) {
+            throw new EmptyIncidenceList("Empty incidence list");
+        }else{
+            return incidences;
+        }
+
     }
 
     //MARCOS
     @GetMapping("/findIncidence/{id}")
     public Incidence findIncidenceById(@PathVariable("id")int id) throws NoIncidenceFoundException {
-        final Incidence incidence = incidenceService.findIncidenceById(id);
-        return incidence;
+        return incidenceService.findIncidenceById(id);
     }
 }
