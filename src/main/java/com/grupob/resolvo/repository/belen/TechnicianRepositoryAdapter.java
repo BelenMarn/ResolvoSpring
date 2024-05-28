@@ -1,7 +1,7 @@
-package com.grupob.resolvo.repository;
+package com.grupob.resolvo.repository.belen;
 
-import com.grupob.resolvo.model.Specialization;
-import com.grupob.resolvo.model.Technician;
+import com.grupob.resolvo.model.enums.Specialization;
+import com.grupob.resolvo.model.belen.Technician;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

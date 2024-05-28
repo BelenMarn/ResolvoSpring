@@ -1,9 +1,8 @@
-package com.grupob.resolvo.services;
+package com.grupob.resolvo.services.belen;
 
-import com.grupob.resolvo.model.Technician;
-import com.grupob.resolvo.model.WorkerUser;
+import com.grupob.resolvo.model.belen.Technician;
 import com.grupob.resolvo.model.exception.NoTechnicianFoundException;
-import com.grupob.resolvo.repository.TechnicianRepository;
+import com.grupob.resolvo.repository.belen.TechnicianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

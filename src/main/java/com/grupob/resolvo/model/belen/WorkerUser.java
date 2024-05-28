@@ -1,4 +1,4 @@
-package com.grupob.resolvo.model;
+package com.grupob.resolvo.model.belen;
 
 public class WorkerUser {
     private int id_worker;

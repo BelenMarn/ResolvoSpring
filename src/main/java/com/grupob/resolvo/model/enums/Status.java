@@ -1,4 +1,4 @@
-package com.grupob.resolvo.model;
+package com.grupob.resolvo.model.enums;
 
 import java.util.HashMap;
 import java.util.Map;

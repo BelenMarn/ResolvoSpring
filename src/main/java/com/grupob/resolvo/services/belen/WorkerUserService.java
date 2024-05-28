@@ -1,9 +1,8 @@
-package com.grupob.resolvo.services;
+package com.grupob.resolvo.services.belen;
 
-import com.grupob.resolvo.model.Technician;
-import com.grupob.resolvo.model.WorkerUser;
+import com.grupob.resolvo.model.belen.WorkerUser;
 import com.grupob.resolvo.model.exception.NoWorkerUserFoundException;
-import com.grupob.resolvo.repository.WorkerUserRepository;
+import com.grupob.resolvo.repository.belen.WorkerUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

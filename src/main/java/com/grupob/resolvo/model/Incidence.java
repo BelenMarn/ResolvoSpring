@@ -1,31 +1,41 @@
 package com.grupob.resolvo.model;
 
+import com.grupob.resolvo.model.enums.Status;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Incidence {
     private int id_incidence;
+    private int id_client;
+    private String clientName;
     private int id_worker;
+    private String workerName;
     private String device;
     private String brand;
     private String model;
+    private String location;
     private String reason;
-    private String open_date;
+    private LocalDateTime open_date;
     private Status status;
     private String technical_report;
-    private String close_date;
-    private Byte[] digital_sign;
-    private ArrayList<Byte[]> media;
+    private LocalDateTime close_date;
+    private byte[] digital_sign;
+    private ArrayList<byte[]> media;
 
     public Incidence() {
     }
 
-    public Incidence(int id_incidence, int id_worker, String device, String brand, String model, String reason, String open_date, Status status, String technical_report, String close_date, Byte[] digital_sign, ArrayList<Byte[]> media) {
+    public Incidence(int id_incidence, int id_client, String clientName, int id_worker, String workerName, String device, String brand, String model, String location, String reason, LocalDateTime open_date, Status status, String technical_report, LocalDateTime close_date, byte[] digital_sign, ArrayList<byte[]> media) {
         this.id_incidence = id_incidence;
+        this.id_client = id_client;
+        this.clientName = clientName;
         this.id_worker = id_worker;
+        this.workerName = workerName;
         this.device = device;
         this.brand = brand;
         this.model = model;
+        this.location = location;
         this.reason = reason;
         this.open_date = open_date;
         this.status = status;
@@ -75,6 +85,14 @@ public class Incidence {
         this.model = model;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public String getReason() {
         return reason;
     }
@@ -83,11 +101,11 @@ public class Incidence {
         this.reason = reason;
     }
 
-    public String getOpen_date() {
+    public LocalDateTime getOpen_date() {
         return open_date;
     }
 
-    public void setOpen_date(String open_date) {
+    public void setOpen_date(LocalDateTime open_date) {
         this.open_date = open_date;
     }
 
@@ -107,53 +125,51 @@ public class Incidence {
         this.technical_report = technical_report;
     }
 
-    public String getClose_date() {
+    public LocalDateTime getClose_date() {
         return close_date;
     }
 
-    public void setClose_date(String close_date) {
+    public void setClose_date(LocalDateTime close_date) {
         this.close_date = close_date;
     }
 
-    public Byte[] getDigital_sign() {
+    public byte[] getDigital_sign() {
         return digital_sign;
     }
 
-    public void setDigital_sign(Byte[] digital_sign) {
+    public void setDigital_sign(byte[] digital_sign) {
         this.digital_sign = digital_sign;
     }
 
-    public ArrayList<Byte[]> getMedia() {
+    public ArrayList<byte[]> getMedia() {
         return media;
     }
 
-    public void setMedia(ArrayList<Byte[]> media) {
+    public void setMedia(ArrayList<byte[]> media) {
         this.media = media;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Incidence incidence = (Incidence) o;
-        return id_incidence == incidence.id_incidence && id_worker == incidence.id_worker && device.equals(incidence.device) && brand.equals(incidence.brand) && model.equals(incidence.model) && reason.equals(incidence.reason) && open_date.equals(incidence.open_date) && status.equals(incidence.status) && technical_report.equals(incidence.technical_report) && close_date.equals(incidence.close_date) && Arrays.equals(digital_sign, incidence.digital_sign) && media.equals(incidence.media);
+    public int getId_client() {
+        return id_client;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id_incidence;
-        result = 31 * result + id_worker;
-        result = 31 * result + device.hashCode();
-        result = 31 * result + brand.hashCode();
-        result = 31 * result + model.hashCode();
-        result = 31 * result + reason.hashCode();
-        result = 31 * result + open_date.hashCode();
-        result = 31 * result + status.hashCode();
-        result = 31 * result + technical_report.hashCode();
-        result = 31 * result + close_date.hashCode();
-        result = 31 * result + Arrays.hashCode(digital_sign);
-        result = 31 * result + media.hashCode();
-        return result;
+    public void setId_client(int id_client) {
+        this.id_client = id_client;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    public String getWorkerName() {
+        return workerName;
+    }
+
+    public void setWorkerName(String workerName) {
+        this.workerName = workerName;
     }
 }

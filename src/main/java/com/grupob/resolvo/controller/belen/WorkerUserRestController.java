@@ -1,17 +1,11 @@
-package com.grupob.resolvo.controller;
+package com.grupob.resolvo.controller.belen;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.grupob.resolvo.model.Technician;
-import com.grupob.resolvo.model.WorkerUser;
+import com.grupob.resolvo.model.belen.WorkerUser;
 import com.grupob.resolvo.model.exception.NoTechnicianFoundException;
 import com.grupob.resolvo.model.exception.NoWorkerUserFoundException;
-import com.grupob.resolvo.services.TechnicianService;
-import com.grupob.resolvo.services.WorkerUserService;
+import com.grupob.resolvo.services.belen.WorkerUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/workeruser/")

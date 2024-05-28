@@ -1,11 +1,9 @@
-package com.grupob.resolvo.controller;
+package com.grupob.resolvo.controller.belen;
 
 
-import com.grupob.resolvo.model.Technician;
-import com.grupob.resolvo.model.WorkerUser;
+import com.grupob.resolvo.model.belen.Technician;
 import com.grupob.resolvo.model.exception.NoTechnicianFoundException;
-import com.grupob.resolvo.model.exception.NoWorkerUserFoundException;
-import com.grupob.resolvo.services.TechnicianService;
+import com.grupob.resolvo.services.belen.TechnicianService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

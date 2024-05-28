@@ -1,4 +1,6 @@
-package com.grupob.resolvo.model;
+package com.grupob.resolvo.model.belen;
+
+import com.grupob.resolvo.model.enums.Specialization;
 
 import java.util.Date;
 

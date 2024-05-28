@@ -1,6 +1,6 @@
-package com.grupob.resolvo.repository;
+package com.grupob.resolvo.repository.belen;
 
-import com.grupob.resolvo.model.WorkerUser;
+import com.grupob.resolvo.model.belen.WorkerUser;
 import com.grupob.resolvo.model.exception.NoWorkerUserFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
