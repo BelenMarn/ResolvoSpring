@@ -6,6 +6,7 @@ import com.grupob.resolvo.model.exception.EmptyWorkerList;
 import com.grupob.resolvo.model.exception.NoWorkerUserFoundException;
 import com.grupob.resolvo.model.marcos.WorkerData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -19,6 +20,13 @@ public class WorkerDataRepositoryAdapter implements WorkerDataRepository {
 
     private final String SELECT_WORKER_BY_EMAIL = "SELECT * FROM trabajador WHERE email = ?";
     private final String SELECT_ALL_WORKERS = "SELECT * FROM trabajador";
+    private final String SELECT_WORKERS_BY_POSTAL_CODE = "SELECT * FROM trabajador WHERE codPostal = ?";
+    private final String SELECT_WORKERS_BY_POSITION = "SELECT * FROM trabajador WHERE cargo = ?";
+    private final String SELECT_WORKERS_BY_SPECIALIZATION = "SELECT * FROM trabajador WHERE especializacion = ?";
+
+    private final String INSERT_WORKER = "INSERT INTO trabajador(nombre, apellidos, calle, codPostal, ciudad, " +
+                                        "provincia, telefono, dni, fechaNacimiento, cargo, especializacion) " +
+                                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private JdbcTemplate jdbcTemplate;
     public WorkerDataRepositoryAdapter(JdbcTemplate jdbcTemplate) {
@@ -41,7 +49,7 @@ public class WorkerDataRepositoryAdapter implements WorkerDataRepository {
         Map<String, Object> workerData = rows.get(0);
 
         WorkerData worker = new WorkerData();
-        worker.setEmail(String.valueOf((int) workerData.get("idTrabajador")));
+        worker.setIdWorker((int) ((Long) workerData.get("idTrabajador")).longValue());
         worker.setName((String) workerData.get("nombre"));
         worker.setSurname((String) workerData.get("apellidos"));
         worker.setStreet((String) workerData.get("calle"));
@@ -51,9 +59,9 @@ public class WorkerDataRepositoryAdapter implements WorkerDataRepository {
         worker.setPhone((String) workerData.get("telefono"));
         worker.setDni((String) workerData.get("dni"));
         worker.setEmail((String) workerData.get("email"));
-        worker.setBirthday_date((Date) workerData.get("fechaNacimiento"));
+        worker.setBirthday_date((java.sql.Date) workerData.get("fechaNacimiento"));
 
-        String positionString = (String) workerData.get("position");
+        String positionString = (String) workerData.get("cargo");
         Position position = Position.fromString(positionString);
         worker.setPosition(position);
 
@@ -69,17 +77,20 @@ public class WorkerDataRepositoryAdapter implements WorkerDataRepository {
         RowMapper<WorkerData> mapper = (rs, rowNum) -> {
 
             WorkerData worker = new WorkerData();
+            worker.setIdWorker((int) ((Long) rs.getObject("idTrabajador")).longValue());
             worker.setName(rs.getString("nombre"));
-            worker.setSurname(rs.getString("apellido"));
-            worker.setStreet(rs.getString("street"));
-            worker.setPostal_code(rs.getString("postal_code"));
+            worker.setSurname(rs.getString("apellidos"));
+            worker.setStreet(rs.getString("calle"));
+            worker.setPostal_code(rs.getString("codPostal"));
             worker.setCity(rs.getString("ciudad"));
             worker.setProvince(rs.getString("provincia"));
             worker.setPhone(rs.getString("telefono"));
             worker.setDni(rs.getString("dni"));
             worker.setEmail(rs.getString("email"));
-            worker.setBirthday_date(rs.getTimestamp("birthday_date"));
-            worker.setPosition(Position.fromString(rs.getString("posicion")));
+            worker.setBirthday_date(rs.getDate("fechaNacimiento"));
+
+            String positionString = rs.getString("cargo");
+            worker.setPosition(Position.fromString(positionString.toLowerCase()));
             worker.setSpecialization(Specialization.fromString(rs.getString("especializacion")));
 
             return worker;
@@ -90,6 +101,129 @@ public class WorkerDataRepositoryAdapter implements WorkerDataRepository {
             throw new EmptyWorkerList("No workers found");
         } else {
             return workers;
+        }
+    }
+
+    @Override
+    public List<WorkerData> findWorkersDataByPostalCode(String code) throws EmptyWorkerList {
+        RowMapper<WorkerData> mapper = (rs, rowNum) -> {
+
+            WorkerData worker = new WorkerData();
+            worker.setIdWorker((int) ((Long) rs.getObject("idTrabajador")).longValue());
+            worker.setName(rs.getString("nombre"));
+            worker.setSurname(rs.getString("apellidos"));
+            worker.setStreet(rs.getString("calle"));
+            worker.setPostal_code(rs.getString("codPostal"));
+            worker.setCity(rs.getString("ciudad"));
+            worker.setProvince(rs.getString("provincia"));
+            worker.setPhone(rs.getString("telefono"));
+            worker.setDni(rs.getString("dni"));
+            worker.setEmail(rs.getString("email"));
+            worker.setBirthday_date(rs.getDate("fechaNacimiento"));
+
+            String positionString = rs.getString("cargo");
+            worker.setPosition(Position.fromString(positionString.toLowerCase()));
+            worker.setSpecialization(Specialization.fromString(rs.getString("especializacion")));
+
+            return worker;
+        };
+
+        List<WorkerData> workers = jdbcTemplate.query(SELECT_WORKERS_BY_POSTAL_CODE, new Object[]{code}, mapper);
+
+        if (workers.isEmpty()) {
+            throw new EmptyWorkerList("No workers found");
+        } else {
+            return workers;
+        }
+    }
+
+    @Override
+    public List<WorkerData> findWorkersDataByPosition(String position) throws EmptyWorkerList {
+        RowMapper<WorkerData> mapper = (rs, rowNum) -> {
+
+            WorkerData worker = new WorkerData();
+            worker.setIdWorker((int) ((Long) rs.getObject("idTrabajador")).longValue());
+            worker.setName(rs.getString("nombre"));
+            worker.setSurname(rs.getString("apellidos"));
+            worker.setStreet(rs.getString("calle"));
+            worker.setPostal_code(rs.getString("codPostal"));
+            worker.setCity(rs.getString("ciudad"));
+            worker.setProvince(rs.getString("provincia"));
+            worker.setPhone(rs.getString("telefono"));
+            worker.setDni(rs.getString("dni"));
+            worker.setEmail(rs.getString("email"));
+            worker.setBirthday_date(rs.getDate("fechaNacimiento"));
+
+            String positionString = rs.getString("cargo");
+            worker.setPosition(Position.fromString(positionString.toLowerCase()));
+            worker.setSpecialization(Specialization.fromString(rs.getString("especializacion")));
+
+            return worker;
+        };
+
+        List<WorkerData> workers = jdbcTemplate.query(SELECT_WORKERS_BY_POSITION, new Object[]{position}, mapper);
+
+        if (workers.isEmpty()) {
+            throw new EmptyWorkerList("No workers found");
+        } else {
+            return workers;
+        }
+    }
+
+    @Override
+    public List<WorkerData> findWorkersDataBySpecialization(String spe) throws EmptyWorkerList {
+        RowMapper<WorkerData> mapper = (rs, rowNum) -> {
+
+            WorkerData worker = new WorkerData();
+            worker.setIdWorker((int) ((Long) rs.getObject("idTrabajador")).longValue());
+            worker.setName(rs.getString("nombre"));
+            worker.setSurname(rs.getString("apellidos"));
+            worker.setStreet(rs.getString("calle"));
+            worker.setPostal_code(rs.getString("codPostal"));
+            worker.setCity(rs.getString("ciudad"));
+            worker.setProvince(rs.getString("provincia"));
+            worker.setPhone(rs.getString("telefono"));
+            worker.setDni(rs.getString("dni"));
+            worker.setEmail(rs.getString("email"));
+            worker.setBirthday_date(rs.getDate("fechaNacimiento"));
+
+            String positionString = rs.getString("cargo");
+            worker.setPosition(Position.fromString(positionString.toLowerCase()));
+            worker.setSpecialization(Specialization.fromString(rs.getString("especializacion")));
+
+            return worker;
+        };
+
+        List<WorkerData> workers = jdbcTemplate.query(SELECT_WORKERS_BY_SPECIALIZATION, new Object[]{spe}, mapper);
+
+        if (workers.isEmpty()) {
+            throw new EmptyWorkerList("No workers found");
+        } else {
+            return workers;
+        }
+    }
+
+    @Override
+    public void addWorkerData(WorkerData workerData) {
+        System.out.println(workerData.toString());
+
+        try {
+            jdbcTemplate.update(INSERT_WORKER,
+                    workerData.getName(),
+                    workerData.getSurname(),
+                    workerData.getStreet(),
+                    workerData.getPostal_code(),
+                    workerData.getCity(),
+                    workerData.getProvince(),
+                    workerData.getPhone(),
+                    workerData.getDni(),
+                    workerData.getBirthday_date(),
+                    workerData.getPosition().name().toLowerCase(),
+                    workerData.getSpecialization().name().toLowerCase()
+            );
+
+        } catch (DataAccessException e) {
+            e.printStackTrace();
         }
     }
 }

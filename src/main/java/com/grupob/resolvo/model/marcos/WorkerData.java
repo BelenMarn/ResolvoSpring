@@ -16,14 +16,14 @@ public class WorkerData {
     private String phone;
     private String dni;
     private String email;
-    private Date birthday_date;
+    private java.sql.Date birthday_date;
     private Position position;
     private Specialization specialization;
 
     public WorkerData() {
     }
 
-    public WorkerData(int idWorker, String name, String surname, String street, String postal_code, String city, String province, String phone, String dni, String email, Date birthday_date, Position position, Specialization specialization) {
+    public WorkerData(int idWorker, String name, String surname, String street, String postal_code, String city, String province, String phone, String dni, String email, java.sql.Date birthday_date, Position position, Specialization specialization) {
         this.idWorker = idWorker;
         this.name = name;
         this.surname = surname;
@@ -119,11 +119,11 @@ public class WorkerData {
         this.email = email;
     }
 
-    public Date getBirthday_date() {
+    public java.sql.Date getBirthday_date() {
         return birthday_date;
     }
 
-    public void setBirthday_date(Date birthday_date) {
+    public void setBirthday_date(java.sql.Date birthday_date) {
         this.birthday_date = birthday_date;
     }
 
@@ -141,5 +141,24 @@ public class WorkerData {
 
     public void setSpecialization(Specialization specialization) {
         this.specialization = specialization;
+    }
+
+    @Override
+    public String toString() {
+        return "WorkerData{" +
+                "idWorker=" + idWorker +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", street='" + street + '\'' +
+                ", postal_code='" + postal_code + '\'' +
+                ", city='" + city + '\'' +
+                ", province='" + province + '\'' +
+                ", phone='" + phone + '\'' +
+                ", dni='" + dni + '\'' +
+                ", email='" + email + '\'' +
+                ", birthday_date=" + birthday_date +
+                ", position=" + position +
+                ", specialization=" + specialization +
+                '}';
     }
 }

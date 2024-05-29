@@ -7,8 +7,9 @@ import com.grupob.resolvo.services.belen.WorkerUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+//BELEN
 @RestController
-@RequestMapping("/api/workeruser/")
+@RequestMapping("/api/workeruser")
 public class WorkerUserRestController {
 
     private final WorkerUserService workerUserService;

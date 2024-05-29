@@ -21,12 +21,12 @@ public class Incidence {
     private String technical_report;
     private LocalDateTime close_date;
     private byte[] digital_sign;
-    private ArrayList<byte[]> media;
+    private ArrayList<Media> media;
 
     public Incidence() {
     }
 
-    public Incidence(int id_incidence, int id_client, String clientName, int id_worker, String workerName, String device, String brand, String model, String location, String reason, LocalDateTime open_date, Status status, String technical_report, LocalDateTime close_date, byte[] digital_sign, ArrayList<byte[]> media) {
+    public Incidence(int id_incidence, int id_client, String clientName, int id_worker, String workerName, String device, String brand, String model, String location, String reason, LocalDateTime open_date, Status status, String technical_report, LocalDateTime close_date, byte[] digital_sign, ArrayList<Media> media) {
         this.id_incidence = id_incidence;
         this.id_client = id_client;
         this.clientName = clientName;
@@ -141,11 +141,11 @@ public class Incidence {
         this.digital_sign = digital_sign;
     }
 
-    public ArrayList<byte[]> getMedia() {
+    public ArrayList<Media> getMedia() {
         return media;
     }
 
-    public void setMedia(ArrayList<byte[]> media) {
+    public void setMedia(ArrayList<Media> media) {
         this.media = media;
     }
 

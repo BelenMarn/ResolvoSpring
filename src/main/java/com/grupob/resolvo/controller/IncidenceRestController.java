@@ -43,7 +43,7 @@ public class IncidenceRestController {
     }
 
     //MARCOS
-    @GetMapping("/findAll/")
+    @GetMapping("/findAll")
     public List<Incidence> findAllIncidences() throws EmptyIncidenceList {
         final List<Incidence> incidences = incidenceService.findAllIncidences();
 

@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Position {
-    ADMINISTRADOR,
-    TECNICO;
+    TECNICO,
+    ADMINISTRADOR;
 
     private static final Map<String, Position> NAME_TO_ENUM = new HashMap<>();
 

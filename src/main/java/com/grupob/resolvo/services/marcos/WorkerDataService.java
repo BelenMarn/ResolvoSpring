@@ -43,4 +43,50 @@ public class WorkerDataService {
             throw new EmptyWorkerList("No workers found");
         }
     }
+
+    public List<WorkerData> findWorkersDataByPostalCode(String code) throws EmptyWorkerList {
+        final List<WorkerData> workers = new ArrayList<WorkerData>();
+        final Iterator<WorkerData> workerIterator = workerDataRepository.findWorkersDataByPostalCode(code).iterator();
+        while (workerIterator.hasNext()) {
+            workers.add(workerIterator.next());
+        }
+
+        if(!workers.isEmpty()){
+            return workers;
+        }else{
+            throw new EmptyWorkerList("No workers found");
+        }
+    }
+
+    public List<WorkerData> findWorkersDataByPosition(String position) throws EmptyWorkerList {
+        final List<WorkerData> workers = new ArrayList<WorkerData>();
+        final Iterator<WorkerData> workerIterator = workerDataRepository.findWorkersDataByPosition(position).iterator();
+        while (workerIterator.hasNext()) {
+            workers.add(workerIterator.next());
+        }
+
+        if(!workers.isEmpty()){
+            return workers;
+        }else{
+            throw new EmptyWorkerList("No workers found");
+        }
+    }
+
+    public List<WorkerData> findWorkersDataBySpecialization(String spe) throws EmptyWorkerList {
+        final List<WorkerData> workers = new ArrayList<WorkerData>();
+        final Iterator<WorkerData> workerIterator = workerDataRepository.findWorkersDataBySpecialization(spe).iterator();
+        while (workerIterator.hasNext()) {
+            workers.add(workerIterator.next());
+        }
+
+        if(!workers.isEmpty()){
+            return workers;
+        }else{
+            throw new EmptyWorkerList("No workers found");
+        }
+    }
+
+    public void addWorkerData(WorkerData workerData) {
+        workerDataRepository.addWorkerData(workerData);
+    }
 }

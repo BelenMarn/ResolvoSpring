@@ -19,8 +19,8 @@ public class InternUserService {
         return internUserRepository.findIfFirstTime(email);
     }
 
-    public void changeFirstTime(String email, String password) {
-        internUserRepository.changeFirstTime(email, password);
+    public void changeFirstTime(String email) {
+        internUserRepository.changeFirstTime(email);
     }
 
     public InternUser findInternUser(String email, String password) throws NoWorkerUserFoundException {
@@ -28,7 +28,7 @@ public class InternUserService {
 
         if (user == null) {
             throw new NoWorkerUserFoundException("User not found");
-        }else{
+        } else {
             return user;
         }
     }

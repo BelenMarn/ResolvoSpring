@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 //MARCOS:
 @RestController
-@RequestMapping("/api/internUser/")
+@RequestMapping("/api/internUser")
 public class InternUserRestController {
 
     private final InternUserService userModelService;
@@ -23,27 +23,26 @@ public class InternUserRestController {
         return userModelService.findIfFirstTime(email);
     }
 
-    @PutMapping("/firstTime/")
-    public void changeFirstTime(@RequestParam("email") String email, @RequestParam("material") String password){
-        userModelService.changeFirstTime(email, password);
+    @PutMapping("/changeFirstTime/{email}")
+    public void changeFirstTime(@PathVariable("email") String email){
+        userModelService.changeFirstTime(email);
 
     }
 
-    @GetMapping("/find/")
+    @GetMapping("/find")
     public InternUser findInternUser(@RequestParam("email") String email, @RequestParam("material") String password) throws NoWorkerUserFoundException {
         final InternUser user = userModelService.findInternUser(email, password);
 
-        if(user != null){
+        if (user == null) {
             throw new NoWorkerUserFoundException("User not found");
-        }else{
+        } else {
             return user;
         }
     }
 
-    @PutMapping("/updatMaterial/")
-    public void updateMaterial(@RequestParam("email") String email, @RequestParam("material") String password){
+    @PutMapping("/updatMaterial/{email}")
+    public void updateMaterial(@PathVariable("email") String email, @RequestParam("material") String password){
         userModelService.updateMaterial(email, password);
 
     }
-
 }

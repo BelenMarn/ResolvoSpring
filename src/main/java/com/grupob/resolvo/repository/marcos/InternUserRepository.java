@@ -5,7 +5,7 @@ import com.grupob.resolvo.model.marcos.InternUser;
 
 public interface InternUserRepository {
     boolean findIfFirstTime(String email);
-    void changeFirstTime(String email, String password);
+    void changeFirstTime(String email);
     InternUser findInternUser(String email, String password) throws NoWorkerUserFoundException;
     void updateMaterial(String email, String password);
 }
