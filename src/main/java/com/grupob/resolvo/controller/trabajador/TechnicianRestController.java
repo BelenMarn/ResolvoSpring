@@ -28,4 +28,10 @@ public class TechnicianRestController {
             throw new NoTechnicianFoundException("Technician not found");
         }
     }
+
+    @GetMapping("/getIfTechnician/{id}")
+    public boolean getIfTechnician(@PathVariable("id") int id) throws NoTechnicianFoundException {
+        return technicianService.getIfTechnician(id);
+
+    }
 }

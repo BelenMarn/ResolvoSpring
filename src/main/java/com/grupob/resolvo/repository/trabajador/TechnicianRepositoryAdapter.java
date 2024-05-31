@@ -1,9 +1,11 @@
 package com.grupob.resolvo.repository.trabajador;
 
+import ch.qos.logback.classic.Logger;
 import com.grupob.resolvo.model.enums.Specialization;
 import com.grupob.resolvo.model.trabajador.Technician;
 import com.grupob.resolvo.model.exception.NoTechnicianFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +18,8 @@ public class TechnicianRepositoryAdapter implements TechnicianRepository{
 
     private final String SELECT_TECHNICIAN = "SELECT nombre, apellidos, calle, codPostal, ciudad, provincia, " +
             "telefono, dni, email, fechaNacimiento, cargo, especializacion FROM trabajador WHERE idTrabajador = ?";
+
+    private final String SELECT_IF_TECHNICIAN = "SELECT cargo FROM trabajador WHERE idTrabajador = ?";
 
 
     private JdbcTemplate jdbcTemplate;
@@ -56,6 +60,19 @@ public class TechnicianRepositoryAdapter implements TechnicianRepository{
         technician.setSpecialization(specialization);
 
         return technician;
+    }
+
+    @Override
+    public boolean getIfTechnician(int id) throws NoTechnicianFoundException {
+        try {
+            String cargo = jdbcTemplate.queryForObject(SELECT_IF_TECHNICIAN, String.class, id);
+            return cargo.equalsIgnoreCase("tecnico");
+
+        }catch (Exception e) {
+            throw new NoTechnicianFoundException("Technician not found");
+
+        }
+
     }
 }
 

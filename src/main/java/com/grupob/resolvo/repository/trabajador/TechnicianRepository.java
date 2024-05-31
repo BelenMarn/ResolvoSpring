@@ -5,4 +5,5 @@ import com.grupob.resolvo.model.exception.NoTechnicianFoundException;
 
 public interface TechnicianRepository {
     Technician findTechnician(int id) throws NoTechnicianFoundException;
+    boolean getIfTechnician(int id) throws NoTechnicianFoundException;
 }

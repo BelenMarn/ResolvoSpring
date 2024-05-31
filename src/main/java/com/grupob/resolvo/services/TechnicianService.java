@@ -25,4 +25,7 @@ public class TechnicianService {
         }
     }
 
+    public boolean getIfTechnician(int id) throws NoTechnicianFoundException {
+        return technicianRepository.getIfTechnician(id);
+    }
 }
