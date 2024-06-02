@@ -13,13 +13,18 @@ import java.util.Locale;
 public class ControllerAdvisory extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({NoClientUserFoundException.class, NoTechnicianFoundException.class,
-            NoWorkerUserFoundException.class, NoIncidenceFoundException.class})
+            NoWorkerUserFoundException.class, NoIncidenceFoundException.class, EmptyClientList.class,
+            EmptyIncidenceList.class, EmptyWorkerList.class})
 
     public ResponseEntity<ErrorResponse> handleUserNotFoundExceptions(Exception ex) {
 
         String errorMessage = ex instanceof NoClientUserFoundException ? "Client user not found" :
                 (ex instanceof NoTechnicianFoundException ? "Technician not found" :
-                        (ex instanceof NoWorkerUserFoundException ? "Worker user not found" : "Incidence not found"));
+                        (ex instanceof NoWorkerUserFoundException ? "Worker user not found" :
+                                (ex instanceof NoIncidenceFoundException ? "Incidence not found" :
+                                        (ex instanceof EmptyClientList ? "Empty client list" :
+                                                (ex instanceof EmptyIncidenceList ? "Empty incidence list" :
+                                                        (ex instanceof EmptyWorkerList ? "Empty worker list" : ";"))))));
 
         ErrorResponse errorResponse = new ErrorResponse() {
 

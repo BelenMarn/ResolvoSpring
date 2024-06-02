@@ -3,7 +3,7 @@ package com.grupob.resolvo.controller.trabajador;
 
 import com.grupob.resolvo.model.trabajador.Technician;
 import com.grupob.resolvo.model.exception.NoTechnicianFoundException;
-import com.grupob.resolvo.services.TechnicianService;
+import com.grupob.resolvo.services.trabajador.TechnicianService;
 import org.springframework.web.bind.annotation.*;
 
 //BELEN

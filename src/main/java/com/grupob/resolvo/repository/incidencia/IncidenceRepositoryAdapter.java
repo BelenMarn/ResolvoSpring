@@ -4,26 +4,25 @@ import com.grupob.resolvo.model.incidencia.Incidence;
 import com.grupob.resolvo.model.enums.Status;
 import com.grupob.resolvo.model.exception.EmptyIncidenceList;
 import com.grupob.resolvo.model.exception.NoIncidenceFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+
 
 @Repository
 public class IncidenceRepositoryAdapter implements IncidenceRepository {
+    private static Logger logger = LoggerFactory.getLogger(IncidenceRepositoryAdapter.class);
 
     //BELÉN
     private final String SELECT_INCIDENCE_OF_TECHNICIAN  = "SELECT idIncidencia, idTrabajador, i.idCliente, " +
                                                         "CONCAT(cliente.nombre,\" \", cliente.apellidos) as nombreCliente, " +
                                                         "dispositivo, marca, modelo, ubicacion, motivo, fechaAltaIncidencia, " +
-                                                        "estado, informeTecnico, fechaCierreIncidencia, firmaDigital, media " +
+                                                        "estado, informeTecnico, fechaCierreIncidencia, firmaDigital, fotografia " +
                                                         "FROM incidencia i, cliente " +
                                                         "WHERE i.idCliente = cliente.idCliente " +
                                                         "AND idTrabajador = ?";
@@ -34,22 +33,20 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
     private final String UPDATE_STATUS = "UPDATE incidencia SET estado = ? WHERE idIncidencia = ?";
 
     //MARCOS:
-    private final String SELECT_INCIDENCE_BY_ID = "SELECT idIncidencia, Incidencia.idCliente, CONCAT(Cliente.nombre,\" \", Cliente.apellidos) as nombreCliente, " +
-                                                "Incidencia.idTrabajador,CONCAT(Trabajador.nombre,\" \", Trabajador.apellidos) as nombreTrabajador, " +
-                                                "dispositivo, marca, modelo, ubicacion, motivo, fechaAltaIncidencia, " +
-                                                "estado, informeTecnico, fechaCierreIncidencia, firmaDigital, media " +
-                                                "FROM Incidencia, Cliente, Trabajador " +
-                                                "WHERE Incidencia.idCliente = Cliente.idCliente " +
-                                                "AND Incidencia.idTrabajador = Trabajador.idTrabajador " +
-                                                "AND Incidencia.idIncidencia = ?";
+    private final String SELECT_INCIDENCE_BY_ID = "SELECT idIncidencia, I.idCliente, CONCAT(C.nombre, \" \", C.apellidos) as nombreCliente, I.idTrabajador, " +
+                                                "CONCAT(T.nombre, \" \", T.apellidos) as nombreTrabajador, dispositivo, marca, modelo, ubicacion, " +
+                                                "motivo, fechaAltaIncidencia, estado, informeTecnico, fechaCierreIncidencia, firmaDigital, fotografia " +
+                                                "FROM Incidencia I LEFT JOIN Cliente C ON I.idCliente = C.idCliente " +
+                                                "LEFT JOIN Trabajador T ON I.idTrabajador = T.idTrabajador " +
+                                                "WHERE idIncidencia = ?";
 
-    private final String SELECT_ALL_INCIDENCES = "SELECT idIncidencia, Incidencia.idCliente,CONCAT(Cliente.nombre,\" \", Cliente.apellidos) " +
-                                            "as nombreCliente, Incidencia.idTrabajador,CONCAT(Trabajador.nombre,\" \", Trabajador.apellidos) " +
-                                            "as nombreTrabajador, dispositivo, marca, modelo, ubicacion, motivo, fechaAltaIncidencia, estado, " +
-                                            "informeTecnico, fechaCierreIncidencia, firmaDigital, media " +
-                                            "FROM Incidencia, Cliente, Trabajador " +
-                                            "WHERE Incidencia.idCliente = Cliente.idCliente " +
-                                            "AND Incidencia.idTrabajador = Trabajador.idTrabajador";
+    private final String SELECT_ALL_INCIDENCES = "SELECT idIncidencia, I.idCliente, CONCAT(C.nombre, \" \", C.apellidos) as nombreCliente, I.idTrabajador, " +
+                                                "CONCAT(T.nombre, \" \", T.apellidos) as nombreTrabajador, dispositivo, marca, modelo, ubicacion, " +
+                                                "motivo, fechaAltaIncidencia, estado, informeTecnico, fechaCierreIncidencia, firmaDigital, fotografia " +
+                                                "FROM Incidencia I LEFT JOIN Cliente C ON I.idCliente = C.idCliente " +
+                                                "LEFT JOIN Trabajador T ON I.idTrabajador = T.idTrabajador";
+
+    private String UPDATE_WORKER = "UPDATE incidencia SET idTrabajador = ? WHERE idIncidencia = ?";
 
 
     private JdbcTemplate jdbcTemplate;
@@ -65,6 +62,8 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
     //BELEN
     @Override
     public List<Incidence> findIncidencesOfTechnician(int id) throws EmptyIncidenceList {
+        String formattedQuery = SELECT_INCIDENCE_OF_TECHNICIAN + " " + id;
+        logger.info("Executing query: {}", formattedQuery);
 
         RowMapper<Incidence> mapper = (rs, rowNum) -> {
             Incidence incidence = new Incidence();
@@ -83,11 +82,14 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
             incidence.setClose_date(rs.getTimestamp("fechaCierreIncidencia") == null ? null :  rs.getTimestamp("fechaCierreIncidencia").toLocalDateTime());
             incidence.setDigital_sign(rs.getBytes("firmaDigital") == null ? null : rs.getBytes("firmaDigital"));
             incidence.setStatus(Status.fromString(rs.getString("estado")));
-            incidence.setMedia(rs.getBytes("media"));
+            incidence.setMedia(rs.getBytes("fotografia") == null ? null : rs.getBytes("fotografia"));
 
+            logger.info("Mapping incidence: id={}, id_worker={}, client_name={}", incidence.getId_incidence(), incidence.getId_worker(), incidence.getClientName());
             return incidence;
         };
         List<Incidence> incidences = jdbcTemplate.query(SELECT_INCIDENCE_OF_TECHNICIAN, mapper, id);
+
+        logger.info("Number of incidences retrieved: {}", incidences.size());
 
         if (incidences.isEmpty()) {
             throw new EmptyIncidenceList("No incidences found");
@@ -122,28 +124,16 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
         return rowsAffected > 0;
     }
 
-
     //MARCOS
     @Override
     public Incidence findIncidenceById(int id) throws NoIncidenceFoundException {
-        Incidence incidence = jdbcTemplate.queryForObject(SELECT_INCIDENCE_BY_ID, Incidence.class, id);
-
-        if(incidence != null){
-            return incidence;
-        }else{
-            throw new NoIncidenceFoundException("No incidence found");
-        }
-    }
-
-    //MARCOS
-    @Override
-    public List<Incidence> findAllIncidences() throws EmptyIncidenceList {
         RowMapper<Incidence> mapper = (rs, rowNum) -> {
             Incidence incidence = new Incidence();
+
             incidence.setId_incidence(rs.getInt("idIncidencia"));
-            incidence.setId_client(rs.getInt("Incidencia.idCliente"));
+            incidence.setId_client(rs.getInt("I.idCliente"));
             incidence.setClientName(rs.getString("nombreCliente"));
-            incidence.setId_worker(rs.getInt("Incidencia.idTrabajador"));
+            incidence.setId_worker(rs.getInt("I.idTrabajador"));
             incidence.setWorkerName(rs.getString("nombreTrabajador"));
             incidence.setDevice(rs.getString("dispositivo"));
             incidence.setBrand(rs.getString("marca"));
@@ -155,19 +145,57 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
             incidence.setClose_date(rs.getTimestamp("fechaCierreIncidencia") == null ? null :  rs.getTimestamp("fechaCierreIncidencia").toLocalDateTime());
             incidence.setDigital_sign(rs.getBytes("firmaDigital") == null ? null : rs.getBytes("firmaDigital"));
             incidence.setStatus(Status.fromString(rs.getString("estado")));
-            incidence.setMedia(rs.getBytes("media"));
+            incidence.setMedia(rs.getBytes("fotografia") == null ? null : rs.getBytes("fotografia"));
 
+            return incidence;
+        };
+        Incidence incidence = jdbcTemplate.queryForObject(SELECT_INCIDENCE_BY_ID, mapper, id);
+
+        if (incidence != null) {
+            return incidence;
+        } else {
+            throw new NoIncidenceFoundException("No incidence found");
+        }
+    }
+
+    //MARCOS
+    @Override
+    public List<Incidence> findAllIncidences() throws EmptyIncidenceList {
+        RowMapper<Incidence> mapper = (rs, rowNum) -> {
+            Incidence incidence = new Incidence();
+            incidence.setId_incidence(rs.getInt("idIncidencia"));
+            incidence.setId_client(rs.getInt("I.idCliente"));
+            incidence.setClientName(rs.getString("nombreCliente"));
+            incidence.setId_worker(rs.getInt("I.idTrabajador"));
+            incidence.setWorkerName(rs.getString("nombreTrabajador"));
+            incidence.setDevice(rs.getString("dispositivo"));
+            incidence.setBrand(rs.getString("marca"));
+            incidence.setModel(rs.getString("modelo"));
+            incidence.setLocation(rs.getString("ubicacion"));
+            incidence.setReason(rs.getString("motivo"));
+            incidence.setOpen_date(rs.getTimestamp("fechaAltaIncidencia").toLocalDateTime());
+            incidence.setTechnical_report(rs.getString("informeTecnico") == null ? null : rs.getString("informeTecnico"));
+            incidence.setClose_date(rs.getTimestamp("fechaCierreIncidencia") == null ? null :  rs.getTimestamp("fechaCierreIncidencia").toLocalDateTime());
+            incidence.setDigital_sign(rs.getBytes("firmaDigital") == null ? null : rs.getBytes("firmaDigital"));
+            incidence.setStatus(Status.fromString(rs.getString("estado")));
+            incidence.setMedia(rs.getBytes("fotografia") == null ? null : rs.getBytes("fotografia"));
 
             return incidence;
         };
         List<Incidence> incidences = jdbcTemplate.query(SELECT_ALL_INCIDENCES, mapper);
 
         if (incidences.isEmpty()) {
-            throw new EmptyIncidenceList("No incidences found");
+            throw new EmptyIncidenceList("Empty incidence list");
         } else {
             return incidences;
         }
     }
 
+    @Override
+    public boolean updateWorker(int idIncidence, String idWorker) {
+        Object[] args = new Object[]{idWorker, idIncidence};
 
+        int rowsAffected = jdbcTemplate.update(UPDATE_WORKER, args);
+        return rowsAffected > 0;
+    }
 }

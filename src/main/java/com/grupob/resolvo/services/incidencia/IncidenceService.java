@@ -1,6 +1,5 @@
-package com.grupob.resolvo.services;
+package com.grupob.resolvo.services.incidencia;
 
-import com.grupob.resolvo.model.enums.Status;
 import com.grupob.resolvo.model.incidencia.Incidence;
 import com.grupob.resolvo.model.exception.EmptyIncidenceList;
 import com.grupob.resolvo.model.exception.NoIncidenceFoundException;
@@ -8,12 +7,10 @@ import com.grupob.resolvo.repository.incidencia.IncidenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -63,7 +60,7 @@ public class IncidenceService {
         if(!incidences.isEmpty()){
             return incidences;
         }else{
-            throw new EmptyIncidenceList("No incidences found");
+            throw new EmptyIncidenceList("Empty incidence list");
         }
     }
 
@@ -74,6 +71,11 @@ public class IncidenceService {
 
     public boolean updateStatus(int id, String status) {
         return incidenceRepository.updateStatus(id, status);
+    }
+
+
+    public boolean updateWorker(int idIncidence, String idWorker) {
+        return incidenceRepository.updateWorker(idIncidence, idWorker);
     }
 
     private LocalDateTime generateCloseDate() {

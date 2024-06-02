@@ -2,7 +2,7 @@ package com.grupob.resolvo.controller.usuario_interno;
 
 import com.grupob.resolvo.model.usuario_interno.WorkerUser;
 import com.grupob.resolvo.model.exception.NoWorkerUserFoundException;
-import com.grupob.resolvo.services.WorkerUserService;
+import com.grupob.resolvo.services.usuario_interno.WorkerUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -4,7 +4,7 @@ import com.grupob.resolvo.model.exception.EmptyWorkerList;
 import com.grupob.resolvo.model.exception.NoTechnicianFoundException;
 import com.grupob.resolvo.model.exception.NoWorkerUserFoundException;
 import com.grupob.resolvo.model.trabajador.WorkerData;
-import com.grupob.resolvo.services.WorkerDataService;
+import com.grupob.resolvo.services.trabajador.WorkerDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.grupob.resolvo.services;
+package com.grupob.resolvo.services.trabajador;
 
 import com.grupob.resolvo.model.trabajador.Technician;
 import com.grupob.resolvo.model.exception.NoTechnicianFoundException;

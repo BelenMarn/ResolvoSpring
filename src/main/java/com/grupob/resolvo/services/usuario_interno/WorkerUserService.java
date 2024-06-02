@@ -1,4 +1,4 @@
-package com.grupob.resolvo.services;
+package com.grupob.resolvo.services.usuario_interno;
 
 import com.grupob.resolvo.model.usuario_interno.WorkerUser;
 import com.grupob.resolvo.model.exception.NoWorkerUserFoundException;

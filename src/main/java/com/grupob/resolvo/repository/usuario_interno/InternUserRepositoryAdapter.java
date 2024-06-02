@@ -49,6 +49,6 @@ public class InternUserRepositoryAdapter implements InternUserRepository {
 
     @Override
     public void updateMaterial(String email, String password) {
-        jdbcTemplate.update(UPDATE_MATERIAL, new Object[]{email, password});
+        jdbcTemplate.update(UPDATE_MATERIAL, password, email);
     }
 }

@@ -12,4 +12,5 @@ public interface IncidenceRepository {
     List<Incidence> findAllIncidences() throws EmptyIncidenceList;
     boolean updateIncidenceFromPhone(int id, Incidence incidence);
     boolean updateStatus(int id, String status);
+    boolean updateWorker(int idIncidence, String idWorker);
 }

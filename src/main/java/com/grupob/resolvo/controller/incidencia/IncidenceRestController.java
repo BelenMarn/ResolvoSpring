@@ -3,7 +3,7 @@ package com.grupob.resolvo.controller.incidencia;
 import com.grupob.resolvo.model.incidencia.Incidence;
 import com.grupob.resolvo.model.exception.EmptyIncidenceList;
 import com.grupob.resolvo.model.exception.NoIncidenceFoundException;
-import com.grupob.resolvo.services.IncidenceService;
+import com.grupob.resolvo.services.incidencia.IncidenceService;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +58,10 @@ public class IncidenceRestController {
         }else{
             return incidences;
         }
+    }
 
+    @PutMapping("/updateWorker/{id}")
+    public boolean updateWorker(@PathVariable("id")int idIncidence, @PathParam("idWorker") String idWorker) {
+        return incidenceService.updateWorker(idIncidence, idWorker);
     }
 }
