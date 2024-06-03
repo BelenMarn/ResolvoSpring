@@ -3,7 +3,9 @@ package com.grupob.resolvo.services.cliente;
 import com.grupob.resolvo.model.cliente.Client;
 import com.grupob.resolvo.model.exception.EmptyClientList;
 import com.grupob.resolvo.model.exception.EmptyIncidenceList;
+import com.grupob.resolvo.model.exception.NoClientUserFoundException;
 import com.grupob.resolvo.model.incidencia.Incidence;
+import com.grupob.resolvo.model.usuario_interno.InternUser;
 import com.grupob.resolvo.repository.cliente.ClientRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +34,23 @@ public class ClientService {
         }else{
             throw new EmptyClientList("Empty client list");
         }
+    }
+
+    public Client findClientByEmail(String email) throws NoClientUserFoundException {
+        final Client client = clientRespository.findClientByEmail(email);
+
+        if(client != null){
+            return client;
+        }else{
+            throw new NoClientUserFoundException("Client not found");
+        }
+    }
+
+    public boolean checkEmail(String email) {
+        return clientRespository.checkEmail(email);
+    }
+
+    public void addClient(Client client) {
+        clientRespository.addClient(client);
     }
 }

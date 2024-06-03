@@ -40,6 +40,18 @@ public class InternUserRestController {
         }
     }
 
+    //SERGIO:
+    @GetMapping("/findByEmail")
+    public InternUser findInternUserByEmail(@RequestParam("email") String email) throws NoWorkerUserFoundException {
+        final InternUser user = userModelService.findInternUserByEmail(email);
+
+        if (user == null) {
+            throw new NoWorkerUserFoundException("User not found");
+        } else {
+            return user;
+        }
+    }
+
     @PutMapping("/updatMaterial/{email}")
     public void updateMaterial(@PathVariable("email") String email, @RequestParam("material") String password){
         userModelService.updateMaterial(email, password);

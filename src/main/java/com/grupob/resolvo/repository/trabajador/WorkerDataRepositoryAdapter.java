@@ -27,6 +27,8 @@ public class WorkerDataRepositoryAdapter implements WorkerDataRepository {
                                         "provincia, telefono, dni, fechaNacimiento, cargo, especializacion) " +
                                         "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+    private final String DELETE_WORKER = "DELETE FROM trabajador WHERE idTrabajador = ?";
+
     private JdbcTemplate jdbcTemplate;
     public WorkerDataRepositoryAdapter(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -224,5 +226,11 @@ public class WorkerDataRepositoryAdapter implements WorkerDataRepository {
         } catch (DataAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean deleteWorkerData(String id) {
+        int rowsAffected = jdbcTemplate.update(DELETE_WORKER, id);
+        return rowsAffected > 0;
     }
 }

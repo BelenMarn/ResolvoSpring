@@ -24,7 +24,7 @@ public class WorkerDataRestController {
 
     //MARCOS:
     @GetMapping("/find")
-    public WorkerData findWorkerDataByEmail(@RequestParam("email") String email) throws NoWorkerUserFoundException, NoTechnicianFoundException {
+    public WorkerData findWorkerDataByEmail(@RequestParam("email") String email) throws NoWorkerUserFoundException {
         final WorkerData worker = workerDataService.findWorkerDataByEmail(email);
 
         if(worker != null){
@@ -88,6 +88,11 @@ public class WorkerDataRestController {
     public void addWorkerData(@RequestBody WorkerData workerData) {
         System.out.println(workerData.toString());
         workerDataService.addWorkerData(workerData);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public boolean deleteWorkerData(@PathVariable("id") String id) {
+        return workerDataService.deleteWorkerData(id);
     }
 
 }

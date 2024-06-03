@@ -89,4 +89,8 @@ public class WorkerDataService {
     public void addWorkerData(WorkerData workerData) {
         workerDataRepository.addWorkerData(workerData);
     }
+
+    public boolean deleteWorkerData(String id) {
+        return workerDataRepository.deleteWorkerData(id);
+    }
 }

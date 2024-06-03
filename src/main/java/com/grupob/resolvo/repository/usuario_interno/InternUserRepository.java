@@ -8,4 +8,5 @@ public interface InternUserRepository {
     void changeFirstTime(String email);
     InternUser findInternUser(String email, String password) throws NoWorkerUserFoundException;
     void updateMaterial(String email, String password);
+    InternUser findInternUserByEmail(String email) throws NoWorkerUserFoundException;
 }

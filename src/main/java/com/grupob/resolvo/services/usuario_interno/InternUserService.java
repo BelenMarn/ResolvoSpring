@@ -36,4 +36,14 @@ public class InternUserService {
     public void updateMaterial(String email, String password) {
         internUserRepository.updateMaterial(email, password);
     }
+
+    public InternUser findInternUserByEmail(String email) throws NoWorkerUserFoundException {
+        final InternUser user = internUserRepository.findInternUserByEmail(email);
+
+        if (user == null) {
+            throw new NoWorkerUserFoundException("User not found");
+        } else {
+            return user;
+        }
+    }
 }
