@@ -62,9 +62,6 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
     //BELEN
     @Override
     public List<Incidence> findIncidencesOfTechnician(int id) throws EmptyIncidenceList {
-        String formattedQuery = SELECT_INCIDENCE_OF_TECHNICIAN + " " + id;
-        logger.info("Executing query: {}", formattedQuery);
-
         RowMapper<Incidence> mapper = (rs, rowNum) -> {
             Incidence incidence = new Incidence();
             incidence.setId_incidence(rs.getInt("idIncidencia"));
@@ -84,7 +81,6 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
             incidence.setStatus(Status.fromString(rs.getString("estado")));
             incidence.setMedia(rs.getBytes("fotografia") == null ? null : rs.getBytes("fotografia"));
 
-            logger.info("Mapping incidence: id={}, id_worker={}, client_name={}", incidence.getId_incidence(), incidence.getId_worker(), incidence.getClientName());
             return incidence;
         };
         List<Incidence> incidences = jdbcTemplate.query(SELECT_INCIDENCE_OF_TECHNICIAN, mapper, id);
@@ -127,6 +123,9 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
     //MARCOS
     @Override
     public Incidence findIncidenceById(int id) throws NoIncidenceFoundException {
+        String formattedQuery = SELECT_INCIDENCE_BY_ID + " " + id;
+        logger.info("Executing query: {}", formattedQuery);
+
         RowMapper<Incidence> mapper = (rs, rowNum) -> {
             Incidence incidence = new Incidence();
 

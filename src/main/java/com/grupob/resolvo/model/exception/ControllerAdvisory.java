@@ -14,7 +14,7 @@ public class ControllerAdvisory extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({NoClientUserFoundException.class, NoTechnicianFoundException.class,
             NoWorkerUserFoundException.class, NoIncidenceFoundException.class, EmptyClientList.class,
-            EmptyIncidenceList.class, EmptyWorkerList.class})
+            EmptyIncidenceList.class, EmptyWorkerList.class, NoBudgetFoundException.class})
 
     public ResponseEntity<ErrorResponse> handleUserNotFoundExceptions(Exception ex) {
 
@@ -24,7 +24,8 @@ public class ControllerAdvisory extends ResponseEntityExceptionHandler {
                                 (ex instanceof NoIncidenceFoundException ? "Incidence not found" :
                                         (ex instanceof EmptyClientList ? "Empty client list" :
                                                 (ex instanceof EmptyIncidenceList ? "Empty incidence list" :
-                                                        (ex instanceof EmptyWorkerList ? "Empty worker list" : ";"))))));
+                                                        (ex instanceof NoBudgetFoundException ? "Budget not found" :
+                                                            (ex instanceof EmptyWorkerList ? "Empty worker list" : ";")))))));
 
         ErrorResponse errorResponse = new ErrorResponse() {
 
