@@ -8,6 +8,8 @@ import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -27,9 +29,11 @@ public class IncidenceRestController {
 
         if (incidences.isEmpty()) {
             throw new EmptyIncidenceList("Empty incidence list");
-        }else{
-            return incidences;
         }
+
+        incidences.sort((o1, o2) -> o2.getOpen_date().compareTo(o1.getOpen_date()));
+
+        return incidences;
     }
 
     @PutMapping("/updateFromPhone/{id}")
