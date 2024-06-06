@@ -19,13 +19,13 @@ public class Incidence {
     private Status status;
     private String technical_report;
     private LocalDateTime close_date;
-    private byte[] digital_sign;
-    private byte[] media;
+    private String digital_sign;
+    private String media;
 
     public Incidence() {
     }
 
-    public Incidence(int id_incidence, int id_client, String clientName, int id_worker, String workerName, String device, String brand, String model, String location, String reason, LocalDateTime open_date, Status status, String technical_report, LocalDateTime close_date, byte[] digital_sign, byte[] media) {
+    public Incidence(int id_incidence, int id_client, String clientName, int id_worker, String workerName, String device, String brand, String model, String location, String reason, LocalDateTime open_date, Status status, String technical_report, LocalDateTime close_date, String digital_sign, String media) {
         this.id_incidence = id_incidence;
         this.id_client = id_client;
         this.clientName = clientName;
@@ -52,12 +52,36 @@ public class Incidence {
         this.id_incidence = id_incidence;
     }
 
+    public int getId_client() {
+        return id_client;
+    }
+
+    public void setId_client(int id_client) {
+        this.id_client = id_client;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
     public int getId_worker() {
         return id_worker;
     }
 
     public void setId_worker(int id_worker) {
         this.id_worker = id_worker;
+    }
+
+    public String getWorkerName() {
+        return workerName;
+    }
+
+    public void setWorkerName(String workerName) {
+        this.workerName = workerName;
     }
 
     public String getDevice() {
@@ -132,43 +156,19 @@ public class Incidence {
         this.close_date = close_date;
     }
 
-    public byte[] getDigital_sign() {
+    public String getDigital_sign() {
         return digital_sign;
     }
 
-    public void setDigital_sign(byte[] digital_sign) {
+    public void setDigital_sign(String digital_sign) {
         this.digital_sign = digital_sign;
     }
 
-    public int getId_client() {
-        return id_client;
-    }
-
-    public void setId_client(int id_client) {
-        this.id_client = id_client;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
-    public String getWorkerName() {
-        return workerName;
-    }
-
-    public void setWorkerName(String workerName) {
-        this.workerName = workerName;
-    }
-
-    public byte[] getMedia() {
+    public String getMedia() {
         return media;
     }
 
-    public void setMedia(byte[] media) {
+    public void setMedia(String media) {
         this.media = media;
     }
 }

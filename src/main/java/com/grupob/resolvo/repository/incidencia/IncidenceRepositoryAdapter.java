@@ -20,17 +20,17 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
 
     //BELÉN
     private final String SELECT_INCIDENCE_OF_TECHNICIAN  = "SELECT idIncidencia, idTrabajador, i.idCliente, " +
-                                                        "CONCAT(cliente.nombre,\" \", cliente.apellidos) as nombreCliente, " +
+                                                        "CONCAT(cliente.nombre, \" \", cliente.apellidos) as nombreCliente, " +
                                                         "dispositivo, marca, modelo, ubicacion, motivo, fechaAltaIncidencia, " +
                                                         "estado, informeTecnico, fechaCierreIncidencia, firmaDigital, fotografia " +
                                                         "FROM incidencia i, cliente " +
                                                         "WHERE i.idCliente = cliente.idCliente " +
                                                         "AND idTrabajador = ?";
 
-    private final String UPDATE_FROM_PHONE = "UPDATE incidencia SET estado = ?, informeTecnico = ?, fechaCierreIncidencia = ?, firmaDigital = ? " +
-                                            "WHERE idIncidencia = ?";
-
+    private final String UPDATE_FROM_PHONE = "UPDATE incidencia SET estado = ?, informeTecnico = ?, fechaCierreIncidencia = ? WHERE idIncidencia = ?";
     private final String UPDATE_STATUS = "UPDATE incidencia SET estado = ? WHERE idIncidencia = ?";
+    private final String UPDATE_SIGN = "UPDATE incidencia SET firmaDigital = ? WHERE idIncidencia = ?";
+    private final String UPDATE_MEDIA = "UPDATE incidencia SET fotografia = ? WHERE idIncidencia = ?";
 
     //MARCOS:
     private final String SELECT_INCIDENCE_BY_ID = "SELECT idIncidencia, I.idCliente, CONCAT(C.nombre, \" \", C.apellidos) as nombreCliente, I.idTrabajador, " +
@@ -77,9 +77,9 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
             incidence.setOpen_date(rs.getTimestamp("fechaAltaIncidencia").toLocalDateTime());
             incidence.setTechnical_report(rs.getString("informeTecnico") == null ? null : rs.getString("informeTecnico"));
             incidence.setClose_date(rs.getTimestamp("fechaCierreIncidencia") == null ? null :  rs.getTimestamp("fechaCierreIncidencia").toLocalDateTime());
-            incidence.setDigital_sign(rs.getBytes("firmaDigital") == null ? null : rs.getBytes("firmaDigital"));
+            incidence.setDigital_sign(rs.getBytes("firmaDigital") == null ? null : rs.getString("firmaDigital"));
             incidence.setStatus(Status.fromString(rs.getString("estado")));
-            incidence.setMedia(rs.getBytes("fotografia") == null ? null : rs.getBytes("fotografia"));
+            incidence.setMedia(rs.getBytes("fotografia") == null ? null : rs.getString("fotografia"));
 
             return incidence;
         };
@@ -102,7 +102,6 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
                     incidence.getStatus().toString(),
                     incidence.getTechnical_report(),
                     incidence.getClose_date(),
-                    incidence.getDigital_sign(),
                     id);
 
             return rowsAffected > 0;
@@ -142,9 +141,9 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
             incidence.setOpen_date(rs.getTimestamp("fechaAltaIncidencia").toLocalDateTime());
             incidence.setTechnical_report(rs.getString("informeTecnico") == null ? null : rs.getString("informeTecnico"));
             incidence.setClose_date(rs.getTimestamp("fechaCierreIncidencia") == null ? null :  rs.getTimestamp("fechaCierreIncidencia").toLocalDateTime());
-            incidence.setDigital_sign(rs.getBytes("firmaDigital") == null ? null : rs.getBytes("firmaDigital"));
+            incidence.setDigital_sign(rs.getBytes("firmaDigital") == null ? null : rs.getString("firmaDigital"));
             incidence.setStatus(Status.fromString(rs.getString("estado")));
-            incidence.setMedia(rs.getBytes("fotografia") == null ? null : rs.getBytes("fotografia"));
+            incidence.setMedia(rs.getBytes("fotografia") == null ? null : rs.getString("fotografia"));
 
             return incidence;
         };
@@ -175,9 +174,9 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
             incidence.setOpen_date(rs.getTimestamp("fechaAltaIncidencia").toLocalDateTime());
             incidence.setTechnical_report(rs.getString("informeTecnico") == null ? null : rs.getString("informeTecnico"));
             incidence.setClose_date(rs.getTimestamp("fechaCierreIncidencia") == null ? null :  rs.getTimestamp("fechaCierreIncidencia").toLocalDateTime());
-            incidence.setDigital_sign(rs.getBytes("firmaDigital") == null ? null : rs.getBytes("firmaDigital"));
+            incidence.setDigital_sign(rs.getBytes("firmaDigital") == null ? null : rs.getString("firmaDigital"));
             incidence.setStatus(Status.fromString(rs.getString("estado")));
-            incidence.setMedia(rs.getBytes("fotografia") == null ? null : rs.getBytes("fotografia"));
+            incidence.setMedia(rs.getBytes("fotografia") == null ? null : rs.getString("fotografia"));
 
             return incidence;
         };
@@ -195,6 +194,22 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
         Object[] args = new Object[]{idWorker, idIncidence};
 
         int rowsAffected = jdbcTemplate.update(UPDATE_WORKER, args);
+        return rowsAffected > 0;
+    }
+
+    @Override
+    public boolean updateSign(int id, String sign) {
+        Object[] args = new Object[]{sign, id};
+
+        int rowsAffected = jdbcTemplate.update(UPDATE_SIGN, args);
+        return rowsAffected > 0;
+    }
+
+    @Override
+    public boolean updateMedia(int id, String media) {
+        Object[] args = new Object[]{media, id};
+
+        int rowsAffected = jdbcTemplate.update(UPDATE_MEDIA, args);
         return rowsAffected > 0;
     }
 }

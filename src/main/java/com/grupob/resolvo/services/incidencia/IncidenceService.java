@@ -73,6 +73,9 @@ public class IncidenceService {
         return incidenceRepository.updateStatus(id, status);
     }
 
+    public boolean updateSign(int id, String sign) {return incidenceRepository.updateSign(id, sign);}
+
+    public boolean updateMedia(int id, String media) {return incidenceRepository.updateMedia(id, media);}
 
     public boolean updateWorker(int idIncidence, String idWorker) {
         return incidenceRepository.updateWorker(idIncidence, idWorker);
@@ -83,4 +86,5 @@ public class IncidenceService {
         Instant instant = Instant.ofEpochMilli(currentDate);
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
+
 }

@@ -13,4 +13,6 @@ public interface IncidenceRepository {
     boolean updateIncidenceFromPhone(int id, Incidence incidence);
     boolean updateStatus(int id, String status);
     boolean updateWorker(int idIncidence, String idWorker);
+    boolean updateSign(int id, String sign);
+    boolean updateMedia(int id, String media);
 }

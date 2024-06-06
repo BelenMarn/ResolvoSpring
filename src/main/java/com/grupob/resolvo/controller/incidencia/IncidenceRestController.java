@@ -43,6 +43,16 @@ public class IncidenceRestController {
         return incidenceService.updateStatus(id, status);
     }
 
+    @PutMapping("/updateSign/{id}")
+    public boolean updateSign(@PathVariable("id")int id, @PathParam("sign") String sign) {
+        return incidenceService.updateSign(id, sign);
+    }
+
+    @PutMapping("/updateMedia/{id}")
+    public boolean updateMedia(@PathVariable("id")int id, @PathParam("media") String media) {
+        return incidenceService.updateMedia(id, media);
+    }
+
     // ----------------------- MARCOS ------------------------
     @GetMapping("/findIncidence/{id}")
     public Incidence findIncidenceById(@PathVariable("id")int id) throws NoIncidenceFoundException {
