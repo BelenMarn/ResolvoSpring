@@ -6,7 +6,7 @@ import java.util.Map;
 public enum Specialization {
     MOVIL,
     PC,
-    PORTAILES,
+    PORTATILES,
     ELECTRODOMESTICOS,
     OTRO;
 
