@@ -93,4 +93,7 @@ public class WorkerDataService {
     public boolean deleteWorkerData(String id) {
         return workerDataRepository.deleteWorkerData(id);
     }
+
+    public boolean updateWorkerData(String id, WorkerData workerData){ return workerDataRepository.updateWorkerData(id, workerData);
+    }
 }

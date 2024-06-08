@@ -14,4 +14,5 @@ public interface WorkerDataRepository {
     List<WorkerData> findWorkersDataBySpecialization(String spe) throws EmptyWorkerList;
     void addWorkerData(WorkerData workerData);
     boolean deleteWorkerData(String id);
+    boolean updateWorkerData(String id, WorkerData workerData);
 }

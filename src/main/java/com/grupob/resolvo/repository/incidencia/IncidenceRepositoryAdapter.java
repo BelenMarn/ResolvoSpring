@@ -20,7 +20,7 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
 
     //BELÉN
     private final String SELECT_INCIDENCE_OF_TECHNICIAN  = "SELECT idIncidencia, idTrabajador, i.idCliente, " +
-                                                        "CONCAT(cliente.nombre, \" \", cliente.apellidos) as nombreCliente, " +
+                                                        "CONCAT(cliente.nombre, ' ', cliente.apellidos) as nombreCliente, " +
                                                         "dispositivo, marca, modelo, ubicacion, motivo, fechaAltaIncidencia, " +
                                                         "estado, informeTecnico, fechaCierreIncidencia, firmaDigital, fotografia " +
                                                         "FROM incidencia i, cliente " +
@@ -33,15 +33,15 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
     private final String UPDATE_MEDIA = "UPDATE incidencia SET fotografia = ? WHERE idIncidencia = ?";
 
     //MARCOS:
-    private final String SELECT_INCIDENCE_BY_ID = "SELECT idIncidencia, I.idCliente, CONCAT(C.nombre, \" \", C.apellidos) as nombreCliente, I.idTrabajador, " +
-                                                "CONCAT(T.nombre, \" \", T.apellidos) as nombreTrabajador, dispositivo, marca, modelo, ubicacion, " +
+    private final String SELECT_INCIDENCE_BY_ID = "SELECT idIncidencia, I.idCliente, CONCAT(C.nombre, ' ', C.apellidos) as nombreCliente, I.idTrabajador, " +
+                                                "CONCAT(T.nombre, ' ', T.apellidos) as nombreTrabajador, dispositivo, marca, modelo, ubicacion, " +
                                                 "motivo, fechaAltaIncidencia, estado, informeTecnico, fechaCierreIncidencia, firmaDigital, fotografia " +
                                                 "FROM Incidencia I LEFT JOIN Cliente C ON I.idCliente = C.idCliente " +
                                                 "LEFT JOIN Trabajador T ON I.idTrabajador = T.idTrabajador " +
                                                 "WHERE idIncidencia = ?";
 
-    private final String SELECT_ALL_INCIDENCES = "SELECT idIncidencia, I.idCliente, CONCAT(C.nombre, \" \", C.apellidos) as nombreCliente, I.idTrabajador, " +
-                                                "CONCAT(T.nombre, \" \", T.apellidos) as nombreTrabajador, dispositivo, marca, modelo, ubicacion, " +
+    private final String SELECT_ALL_INCIDENCES = "SELECT idIncidencia, I.idCliente, CONCAT(C.nombre, ' ', C.apellidos) as nombreCliente, I.idTrabajador, " +
+                                                "CONCAT(T.nombre, ' ', T.apellidos) as nombreTrabajador, dispositivo, marca, modelo, ubicacion, " +
                                                 "motivo, fechaAltaIncidencia, estado, informeTecnico, fechaCierreIncidencia, firmaDigital, fotografia " +
                                                 "FROM Incidencia I LEFT JOIN Cliente C ON I.idCliente = C.idCliente " +
                                                 "LEFT JOIN Trabajador T ON I.idTrabajador = T.idTrabajador";
@@ -199,6 +199,9 @@ public class IncidenceRepositoryAdapter implements IncidenceRepository {
 
     @Override
     public boolean updateSign(int id, String sign) {
+        String formattedQuery = UPDATE_SIGN + " " + sign + id;
+        logger.info("Executing query: {}", formattedQuery);
+
         Object[] args = new Object[]{sign, id};
 
         int rowsAffected = jdbcTemplate.update(UPDATE_SIGN, args);

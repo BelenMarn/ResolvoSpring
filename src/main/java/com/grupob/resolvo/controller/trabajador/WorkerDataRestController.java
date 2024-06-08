@@ -3,6 +3,7 @@ package com.grupob.resolvo.controller.trabajador;
 import com.grupob.resolvo.model.exception.EmptyWorkerList;
 import com.grupob.resolvo.model.exception.NoTechnicianFoundException;
 import com.grupob.resolvo.model.exception.NoWorkerUserFoundException;
+import com.grupob.resolvo.model.incidencia.Incidence;
 import com.grupob.resolvo.model.trabajador.WorkerData;
 import com.grupob.resolvo.services.trabajador.WorkerDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +94,11 @@ public class WorkerDataRestController {
     @DeleteMapping("/delete/{id}")
     public boolean deleteWorkerData(@PathVariable("id") String id) {
         return workerDataService.deleteWorkerData(id);
+    }
+
+    @PutMapping("/update/{id}")
+    public boolean updateWorkerData(@PathVariable("id") String id, @RequestBody WorkerData workerData) {
+        return workerDataService.updateWorkerData(id, workerData);
     }
 
 }

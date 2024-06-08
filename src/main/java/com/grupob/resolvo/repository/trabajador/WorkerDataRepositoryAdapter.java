@@ -28,6 +28,10 @@ public class WorkerDataRepositoryAdapter implements WorkerDataRepository {
                                         "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private final String DELETE_WORKER = "DELETE FROM trabajador WHERE idTrabajador = ?";
+    private final String UPDATE_WORKER_DATA = "UPDATE trabajador SET idTrabajador = ?, nombre = ?, apellidos = ?, " +
+                                        "calle = ?, codPostal = ?, ciudad = ?, provincia = ?, telefono = ?, dni = ?, email = ?, fechaNacimiento = ?, " +
+                                        "cargo = ?, especializacion = ? WHERE idTrabajador = ?";
+
 
     private JdbcTemplate jdbcTemplate;
     public WorkerDataRepositoryAdapter(JdbcTemplate jdbcTemplate) {
@@ -206,7 +210,6 @@ public class WorkerDataRepositoryAdapter implements WorkerDataRepository {
 
     @Override
     public void addWorkerData(WorkerData workerData) {
-        System.out.println(workerData.toString());
 
         try {
             jdbcTemplate.update(INSERT_WORKER,
@@ -231,6 +234,27 @@ public class WorkerDataRepositoryAdapter implements WorkerDataRepository {
     @Override
     public boolean deleteWorkerData(String id) {
         int rowsAffected = jdbcTemplate.update(DELETE_WORKER, id);
+        return rowsAffected > 0;
+    }
+
+    @Override
+    public boolean updateWorkerData(String id, WorkerData workerData) {
+        int rowsAffected = jdbcTemplate.update(UPDATE_WORKER_DATA,
+                workerData.getIdWorker(),
+                workerData.getName(),
+                workerData.getSurname(),
+                workerData.getStreet(),
+                workerData.getPostal_code(),
+                workerData.getCity(),
+                workerData.getProvince(),
+                workerData.getPhone(),
+                workerData.getDni(),
+                workerData.getEmail(),
+                workerData.getBirthday_date(),
+                workerData.getPosition().name().toLowerCase(),
+                workerData.getSpecialization().name().toLowerCase(),
+                id);
+
         return rowsAffected > 0;
     }
 }
